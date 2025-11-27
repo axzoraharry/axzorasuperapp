@@ -1,1 +1,710 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Aurora Studio – a modern creative agency example site" />
+    <title>Aurora Studio · Creative Agency</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --bg: #06070e;
+        --surface: rgba(255, 255, 255, 0.04);
+        --card: rgba(255, 255, 255, 0.06);
+        --text: #f7f7ff;
+        --muted: #94a3b8;
+        --accent: #7c3aed;
+        --accent-soft: rgba(124, 58, 237, 0.15);
+        --border: rgba(255, 255, 255, 0.08);
+        --shadow: 0 20px 40px rgba(0, 0, 0, 0.35);
+      }
 
+      [data-theme="light"] {
+        --bg: #f7f8fb;
+        --surface: rgba(0, 4, 15, 0.04);
+        --card: rgba(255, 255, 255, 0.9);
+        --text: #0f172a;
+        --muted: #475569;
+        --accent: #7c3aed;
+        --accent-soft: rgba(124, 58, 237, 0.1);
+        --border: rgba(15, 23, 42, 0.08);
+        --shadow: 0 20px 45px rgba(15, 23, 42, 0.15);
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        font-family: "Space Grotesk", system-ui, -apple-system, BlinkMacSystemFont,
+          "Segoe UI", sans-serif;
+        background: var(--bg);
+        color: var(--text);
+        min-height: 100vh;
+        line-height: 1.6;
+        text-rendering: geometricPrecision;
+        -webkit-font-smoothing: antialiased;
+      }
+
+      .gradient-blur {
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        background: radial-gradient(
+            circle at top,
+            rgba(124, 58, 237, 0.35),
+            transparent 50%
+          ),
+          radial-gradient(circle at 20% 20%, rgba(14, 165, 233, 0.25), transparent 40%),
+          radial-gradient(circle at 80% 0%, rgba(99, 102, 241, 0.3), transparent 45%);
+        opacity: 0.6;
+        filter: blur(60px);
+        z-index: -2;
+      }
+
+      header {
+        position: relative;
+        padding: 2rem clamp(1rem, 5vw, 5rem) 5rem;
+        overflow: hidden;
+      }
+
+      nav {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        padding: 1rem 1.5rem;
+        border: 1px solid var(--border);
+        border-radius: 999px;
+        background: var(--surface);
+        backdrop-filter: blur(18px);
+        box-shadow: var(--shadow);
+        position: sticky;
+        top: 1.5rem;
+        z-index: 99;
+      }
+
+      .logo {
+        font-weight: 600;
+        letter-spacing: 0.08em;
+      }
+
+      .nav-links {
+        list-style: none;
+        display: flex;
+        gap: 1.5rem;
+      }
+
+      .nav-links a {
+        text-decoration: none;
+        color: var(--muted);
+        font-size: 0.95rem;
+        letter-spacing: 0.03em;
+        transition: color 0.2s ease;
+      }
+
+      .nav-links a:hover {
+        color: var(--text);
+      }
+
+      .nav-toggle,
+      .theme-toggle {
+        border: 1px solid var(--border);
+        background: var(--surface);
+        color: var(--text);
+        padding: 0.55rem 0.9rem;
+        border-radius: 999px;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        transition: transform 0.2s ease;
+      }
+
+      .nav-toggle:active,
+      .theme-toggle:active {
+        transform: scale(0.96);
+      }
+
+      .nav-toggle {
+        display: none;
+      }
+
+      .hero {
+        margin-top: 3rem;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 3rem;
+        align-items: center;
+      }
+
+      .hero h1 {
+        font-size: clamp(2.5rem, 6vw, 4.8rem);
+        line-height: 1.1;
+        letter-spacing: -0.02em;
+      }
+
+      .hero p {
+        margin-top: 1.5rem;
+        font-size: 1.1rem;
+        color: var(--muted);
+      }
+
+      .cta {
+        margin-top: 2.5rem;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+      }
+
+      .btn-primary,
+      .btn-ghost {
+        border-radius: 999px;
+        padding: 0.95rem 2.4rem;
+        text-decoration: none;
+        border: 1px solid var(--border);
+        font-weight: 500;
+        letter-spacing: 0.04em;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+      }
+
+      .btn-primary {
+        background: linear-gradient(120deg, #f97316, #7c3aed, #0ea5e9);
+        box-shadow: 0 15px 45px rgba(124, 58, 237, 0.4);
+        color: #fff;
+      }
+
+      .btn-ghost {
+        background: transparent;
+        color: var(--text);
+      }
+
+      .metrics {
+        margin-top: 3rem;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+        gap: 1rem;
+      }
+
+      .metric-card {
+        padding: 1.5rem;
+        border-radius: 1.25rem;
+        background: var(--card);
+        border: 1px solid var(--border);
+        text-align: center;
+      }
+
+      .metric-card h3 {
+        font-size: 2rem;
+      }
+
+      main {
+        padding: 0 clamp(1rem, 5vw, 5rem) 5rem;
+        display: grid;
+        gap: 4rem;
+      }
+
+      section {
+        padding: 2.5rem;
+        border-radius: 2rem;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        box-shadow: var(--shadow);
+        position: relative;
+        overflow: hidden;
+      }
+
+      section h2 {
+        font-size: clamp(2rem, 4vw, 3rem);
+        margin-bottom: 1.5rem;
+      }
+
+      .pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        border-radius: 999px;
+        padding: 0.35rem 1.1rem;
+        font-size: 0.85rem;
+        background: var(--accent-soft);
+        color: var(--accent);
+        margin-bottom: 1rem;
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 1.5rem;
+      }
+
+      .card {
+        padding: 1.5rem;
+        border-radius: 1.5rem;
+        background: var(--card);
+        border: 1px solid var(--border);
+      }
+
+      .card h3 {
+        margin-bottom: 0.75rem;
+      }
+
+      .timeline {
+        position: relative;
+        padding-left: 2rem;
+        border-left: 1px solid var(--border);
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+      }
+
+      .timeline-step {
+        position: relative;
+      }
+
+      .timeline-step::before {
+        content: "";
+        position: absolute;
+        left: -2.6rem;
+        top: 0.3rem;
+        width: 0.85rem;
+        height: 0.85rem;
+        border-radius: 50%;
+        background: var(--accent);
+        box-shadow: 0 0 15px rgba(124, 58, 237, 0.65);
+      }
+
+      .testimonials {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        gap: 1.5rem;
+      }
+
+      .testimonial {
+        background: var(--card);
+        border-radius: 1.5rem;
+        border: 1px solid var(--border);
+        padding: 1.6rem;
+        min-height: 220px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+      }
+
+      .highlight {
+        font-size: 2rem;
+        font-weight: 500;
+        margin: 1rem 0;
+      }
+
+      .contact {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        gap: 2rem;
+        align-items: center;
+      }
+
+      form {
+        display: grid;
+        gap: 1rem;
+      }
+
+      label {
+        font-size: 0.9rem;
+        color: var(--muted);
+      }
+
+      input,
+      textarea {
+        width: 100%;
+        padding: 0.85rem 1rem;
+        border-radius: 1rem;
+        border: 1px solid var(--border);
+        background: var(--card);
+        color: var(--text);
+        font-family: inherit;
+      }
+
+      textarea {
+        min-height: 160px;
+        resize: vertical;
+      }
+
+      footer {
+        padding: 2.5rem clamp(1rem, 5vw, 5rem) 4rem;
+        text-align: center;
+        color: var(--muted);
+      }
+
+      .status-chip {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.35rem;
+        padding: 0.2rem 0.7rem;
+        border-radius: 999px;
+        border: 1px solid var(--border);
+        font-size: 0.8rem;
+      }
+
+      .status-chip span {
+        width: 0.55rem;
+        height: 0.55rem;
+        border-radius: 50%;
+        background: #4ade80;
+        box-shadow: 0 0 10px rgba(74, 222, 128, 0.8);
+      }
+
+      .back-to-top {
+        position: fixed;
+        right: 1.5rem;
+        bottom: 1.5rem;
+        z-index: 90;
+        border-radius: 50%;
+        width: 3.2rem;
+        height: 3.2rem;
+        border: none;
+        background: var(--accent);
+        color: #fff;
+        cursor: pointer;
+        box-shadow: var(--shadow);
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.2s ease, visibility 0.2s ease, transform 0.2s ease;
+      }
+
+      .back-to-top.show {
+        opacity: 1;
+        visibility: visible;
+      }
+
+      @media (max-width: 920px) {
+        nav {
+          border-radius: 1.5rem;
+        }
+
+        .nav-links {
+          position: absolute;
+          top: calc(100% + 0.5rem);
+          left: 0;
+          right: 0;
+          flex-direction: column;
+          background: var(--surface);
+          border: 1px solid var(--border);
+          border-radius: 1.5rem;
+          padding: 1rem;
+          box-shadow: var(--shadow);
+          opacity: 0;
+          pointer-events: none;
+          transform: translateY(-10px);
+          transition: opacity 0.2s ease, transform 0.2s ease;
+        }
+
+        .nav-links.open {
+          opacity: 1;
+          pointer-events: auto;
+          transform: translateY(0);
+        }
+
+        .nav-toggle {
+          display: inline-flex;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="gradient-blur" aria-hidden="true"></div>
+    <header id="top">
+      <nav>
+        <div class="logo">Aurora Studio</div>
+        <button class="nav-toggle" aria-label="Toggle navigation">☰</button>
+        <ul class="nav-links">
+          <li><a href="#services">Services</a></li>
+          <li><a href="#process">Process</a></li>
+          <li><a href="#work">Work</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+        <button class="theme-toggle" aria-label="Toggle color mode">◎</button>
+      </nav>
+      <div class="hero">
+        <div>
+          <div class="pill">Crafted example website</div>
+          <h1>Digital products that feel effortless & expressive.</h1>
+          <p>
+            Aurora Studio is a concept agency specializing in immersive brand
+            systems, intuitive product design, and launch storytelling that
+            converts.
+          </p>
+          <div class="cta">
+            <a class="btn-primary" href="#contact">Schedule a call</a>
+            <a class="btn-ghost" href="#work">See recent work →</a>
+          </div>
+          <div class="metrics">
+            <div class="metric-card">
+              <h3>120+</h3>
+              <p>Products launched</p>
+            </div>
+            <div class="metric-card">
+              <h3>4.9/5</h3>
+              <p>Average NPS</p>
+            </div>
+            <div class="metric-card">
+              <h3>12</h3>
+              <p>Countries served</p>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="pill">Live project status</div>
+          <div class="card">
+            <div class="status-chip"><span></span> Sprint in progress</div>
+            <div class="highlight">Orbit OS Design Language</div>
+            <p>
+              Unifying web + native experiences with a shared component system,
+              motion library, and story-driven documentation.
+            </p>
+            <ul style="margin-top: 1.25rem; color: var(--muted);">
+              <li>✺ 62 components documented</li>
+              <li>✺ Motion tokens shipped</li>
+              <li>✺ Voice & tone guide live</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section id="services">
+        <div class="pill">What we do</div>
+        <h2>Strategy, design, and systems for ambitious teams.</h2>
+        <div class="grid">
+          <article class="card">
+            <h3>Product strategy</h3>
+            <p>
+              Narrative workshops, value prop framing, and north-star mapping to
+              keep every sprint pointed at the user outcome.
+            </p>
+          </article>
+          <article class="card">
+            <h3>Experience design</h3>
+            <p>
+              Interface, motion, and content design that scales. We obsess over
+              the invisible moments that make software feel human.
+            </p>
+          </article>
+          <article class="card">
+            <h3>Launch content</h3>
+            <p>
+              End-to-end campaigns with landing pages, showreels, and social kits
+              to ship your product story with confidence.
+            </p>
+          </article>
+          <article class="card">
+            <h3>Design systems</h3>
+            <p>
+              Token architecture, component libraries, and documentation to keep
+              cross-platform teams shipping faster.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <section id="process">
+        <div class="pill">How it flows</div>
+        <h2>Transparent milestones. Reliable collaboration.</h2>
+        <div class="timeline">
+          <div class="timeline-step">
+            <h3>01 · Discover</h3>
+            <p>Stakeholder interviews, user research synthesis, and journey mapping.</p>
+          </div>
+          <div class="timeline-step">
+            <h3>02 · Design</h3>
+            <p>Weekly drops with interactive prototypes, motion studies, and content.</p>
+          </div>
+          <div class="timeline-step">
+            <h3>03 · Build</h3>
+            <p>Partner engineering or design handoff, paired QA, and support docs.</p>
+          </div>
+          <div class="timeline-step">
+            <h3>04 · Launch</h3>
+            <p>Go-to-market storytelling, live site builds, and training sessions.</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="work">
+        <div class="pill">Selected work</div>
+        <h2>Recent releases and prototypes.</h2>
+        <div class="grid">
+          <article class="card">
+            <h3>Pulse Health</h3>
+            <p>Consumer health OS that blends AI guidance with biometric data.</p>
+            <small>Product strategy · App design · Launch site</small>
+          </article>
+          <article class="card">
+            <h3>Nova Bank</h3>
+            <p>Premium banking experience with realtime wealth dashboards.</p>
+            <small>Design system · Web app · Motion</small>
+          </article>
+          <article class="card">
+            <h3>Aster Robotics</h3>
+            <p>Industrial robotics platform reimagined for rapid onboarding.</p>
+            <small>Brand · WebGL site · GTM</small>
+          </article>
+          <article class="card">
+            <h3>Cloudshift</h3>
+            <p>Developer tooling workspace with multiplayer collaboration.</p>
+            <small>UX research · Product design · Storytelling</small>
+          </article>
+        </div>
+      </section>
+
+      <section>
+        <div class="pill">Proof</div>
+        <h2>Leaders talk about working with Aurora.</h2>
+        <div class="testimonials">
+          <article class="testimonial">
+            <p>
+              “They ship with a founder mindset. Every deliverable felt already
+              tested in the wild.”
+            </p>
+            <strong>Naomi Carter · CEO, Cloudshift</strong>
+          </article>
+          <article class="testimonial">
+            <p>
+              “The system they handed off saved our team months. Documentation was
+              a product in itself.”
+            </p>
+            <strong>Leo Park · Head of Design, Nova Bank</strong>
+          </article>
+          <article class="testimonial">
+            <p>
+              “They choreographed an entire launch narrative and gave our team the
+              confidence to scale.”
+            </p>
+            <strong>Imani Ruiz · VP Product, Pulse</strong>
+          </article>
+        </div>
+      </section>
+
+      <section id="contact">
+        <div class="pill">Let's build</div>
+        <h2>Tell us about your next launch.</h2>
+        <div class="contact">
+          <div>
+            <p>
+              Drop a note and we’ll respond within 2 business days with a tailored
+              kickoff plan, budget ranges, and a preview timeline.
+            </p>
+            <ul style="margin-top: 1.25rem; color: var(--muted);">
+              <li>↳ Workshops start at $8k</li>
+              <li>↳ Product sprints start at $15k</li>
+              <li>↳ Full launches from $25k</li>
+            </ul>
+          </div>
+          <form id="contact-form">
+            <label for="name">Your name</label>
+            <input id="name" name="name" placeholder="Alex Kim" required />
+            <label for="email">Work email</label>
+            <input
+              id="email"
+              name="email"
+              type="email"
+              placeholder="alex@brand.com"
+              required
+            />
+            <label for="message">Project details</label>
+            <textarea
+              id="message"
+              name="message"
+              placeholder="Tell us about timeline, goals, and links"
+              required
+            ></textarea>
+            <button class="btn-primary" type="submit">Send request</button>
+            <p id="form-status" style="display: none; color: #4ade80;">
+              Request sent! We'll be in touch shortly.
+            </p>
+          </form>
+        </div>
+      </section>
+    </main>
+
+    <button class="back-to-top" aria-label="Back to top">↑</button>
+
+    <footer>
+      © <span id="year"></span> Aurora Studio · Made as an example experience.
+    </footer>
+
+    <script>
+      const root = document.documentElement;
+      const navToggle = document.querySelector('.nav-toggle');
+      const navLinks = document.querySelector('.nav-links');
+      const themeToggle = document.querySelector('.theme-toggle');
+      const contactForm = document.querySelector('#contact-form');
+      const formStatus = document.querySelector('#form-status');
+      const backToTop = document.querySelector('.back-to-top');
+
+      function setTheme(theme) {
+        document.body.dataset.theme = theme;
+        localStorage.setItem('aurora-theme', theme);
+      }
+
+      (function initTheme() {
+        const preferred = localStorage.getItem('aurora-theme');
+        if (preferred) {
+          setTheme(preferred);
+        } else if (window.matchMedia('(prefers-color-scheme: light)').matches) {
+          setTheme('light');
+        }
+      })();
+
+      themeToggle.addEventListener('click', () => {
+        const nextTheme = document.body.dataset.theme === 'light' ? 'dark' : 'light';
+        setTheme(nextTheme);
+      });
+
+      navToggle.addEventListener('click', () => {
+        navLinks.classList.toggle('open');
+      });
+
+      navLinks.addEventListener('click', (event) => {
+        if (event.target.tagName === 'A' && navLinks.classList.contains('open')) {
+          navLinks.classList.remove('open');
+        }
+      });
+
+      contactForm.addEventListener('submit', (event) => {
+        event.preventDefault();
+        formStatus.style.display = 'block';
+        formStatus.textContent = 'Sending…';
+
+        setTimeout(() => {
+          formStatus.textContent = "Request sent! We'll be in touch shortly.";
+          contactForm.reset();
+        }, 800);
+      });
+
+      function handleScroll() {
+        const scrolled = window.scrollY;
+        if (scrolled > 400) {
+          backToTop.classList.add('show');
+        } else {
+          backToTop.classList.remove('show');
+        }
+      }
+
+      window.addEventListener('scroll', handleScroll);
+
+      backToTop.addEventListener('click', () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+
+      document.getElementById('year').textContent = new Date().getFullYear();
+    </script>
+  </body>
+</html>

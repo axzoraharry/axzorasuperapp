@@ -1,0 +1,30 @@
+name: check
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  static-checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Landing page sanity
+        run: |
+          set -euo pipefail
+          test -f index.html
+          test -f .nojekyll
+          # no external <script src> / <img src> / <link href> — the page must work offline and from file://
+          if grep -nE '<(script|img)[^>]+src="https?://|<link[^>]+href="https?://' index.html; then
+            echo "::error::external asset reference found"; exit 1
+          fi
+          # no inline secret-looking literals
+          if grep -nEi '(api[_-]?key|secret|passphrase)["'"'"' ]*[:=]["'"'"' ]*[A-Za-z0-9_-]{16,}' index.html; then
+            echo "::error::possible secret in index.html"; exit 1
+          fi
+          echo "index.html $(wc -c < index.html) bytes, $(grep -c '<section' index.html) sections"

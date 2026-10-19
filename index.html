@@ -1,39 +1,54 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Aurora Studio – a modern creative agency example site" />
-    <title>Aurora Studio · Creative Agency</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Axzora Super App · Happy Paisa on BSC</title>
+    <meta
+      name="description"
+      content="Axzora Super App: a mobile-first Happy Paisa (HP) dApp on BNB Smart Chain — mint, burn, transfer, stake, voice commands and an AI avatar. Plus AxzoraOS and the Ludo room server."
+    />
+    <meta name="theme-color" content="#06070e" />
+    <meta property="og:title" content="Axzora Super App" />
+    <meta
+      property="og:description"
+      content="Happy Paisa (HP) on BNB Smart Chain — mobile-first, self-custody, no backend required."
+    />
     <link
-      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600&display=swap"
-      rel="stylesheet"
+      rel="icon"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%237c3aed'/%3E%3Ctext x='16' y='23' font-size='17' text-anchor='middle' fill='white' font-family='sans-serif'%3EA%3C/text%3E%3C/svg%3E"
     />
     <style>
       :root {
         --bg: #06070e;
-        --surface: rgba(255, 255, 255, 0.04);
+        --surface: rgba(255, 255, 255, 0.045);
         --card: rgba(255, 255, 255, 0.06);
         --text: #f7f7ff;
-        --muted: #94a3b8;
+        --muted: #9aa3b8;
         --accent: #7c3aed;
-        --accent-soft: rgba(124, 58, 237, 0.15);
-        --border: rgba(255, 255, 255, 0.08);
-        --shadow: 0 20px 40px rgba(0, 0, 0, 0.35);
+        --accent-2: #0ea5e9;
+        --accent-soft: rgba(124, 58, 237, 0.16);
+        --border: rgba(255, 255, 255, 0.09);
+        --ok: #34d399;
+        --warn: #fbbf24;
+        --bad: #f87171;
+        --shadow: 0 20px 45px rgba(0, 0, 0, 0.4);
       }
 
       [data-theme="light"] {
-        --bg: #f7f8fb;
-        --surface: rgba(0, 4, 15, 0.04);
-        --card: rgba(255, 255, 255, 0.9);
-        --text: #0f172a;
-        --muted: #475569;
-        --accent: #7c3aed;
-        --accent-soft: rgba(124, 58, 237, 0.1);
-        --border: rgba(15, 23, 42, 0.08);
-        --shadow: 0 20px 45px rgba(15, 23, 42, 0.15);
+        --bg: #f6f7fb;
+        --surface: rgba(9, 12, 24, 0.03);
+        --card: rgba(255, 255, 255, 0.85);
+        --text: #0d1424;
+        --muted: #566079;
+        --accent: #6d28d9;
+        --accent-2: #0284c7;
+        --accent-soft: rgba(109, 40, 217, 0.1);
+        --border: rgba(13, 20, 36, 0.1);
+        --ok: #059669;
+        --warn: #b45309;
+        --bad: #dc2626;
+        --shadow: 0 18px 40px rgba(13, 20, 36, 0.12);
       }
 
       * {
@@ -42,669 +57,833 @@
         padding: 0;
       }
 
+      html {
+        scroll-behavior: smooth;
+      }
+
       body {
-        font-family: "Space Grotesk", system-ui, -apple-system, BlinkMacSystemFont,
-          "Segoe UI", sans-serif;
+        font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
         background: var(--bg);
         color: var(--text);
         min-height: 100vh;
         line-height: 1.6;
-        text-rendering: geometricPrecision;
         -webkit-font-smoothing: antialiased;
       }
 
-      .gradient-blur {
+      .glow {
         position: fixed;
         inset: 0;
-        pointer-events: none;
-        background: radial-gradient(
-            circle at top,
-            rgba(124, 58, 237, 0.35),
-            transparent 50%
-          ),
-          radial-gradient(circle at 20% 20%, rgba(14, 165, 233, 0.25), transparent 40%),
-          radial-gradient(circle at 80% 0%, rgba(99, 102, 241, 0.3), transparent 45%);
-        opacity: 0.6;
-        filter: blur(60px);
         z-index: -2;
+        pointer-events: none;
+        background:
+          radial-gradient(circle at 50% -10%, rgba(124, 58, 237, 0.32), transparent 55%),
+          radial-gradient(circle at 10% 10%, rgba(14, 165, 233, 0.2), transparent 45%),
+          radial-gradient(circle at 90% 0%, rgba(236, 72, 153, 0.16), transparent 45%);
+        filter: blur(40px);
       }
 
-      header {
-        position: relative;
-        padding: 2rem clamp(1rem, 5vw, 5rem) 5rem;
-        overflow: hidden;
+      .wrap {
+        width: min(1120px, 100% - 2rem);
+        margin-inline: auto;
       }
 
+      /* nav ---------------------------------------------------------- */
       nav {
+        position: sticky;
+        top: 0.9rem;
+        z-index: 50;
         display: flex;
         align-items: center;
         justify-content: space-between;
         gap: 1rem;
-        padding: 1rem 1.5rem;
+        margin-top: 1.2rem;
+        padding: 0.7rem 0.9rem 0.7rem 1.2rem;
         border: 1px solid var(--border);
         border-radius: 999px;
         background: var(--surface);
-        backdrop-filter: blur(18px);
+        backdrop-filter: blur(18px) saturate(140%);
         box-shadow: var(--shadow);
-        position: sticky;
-        top: 1.5rem;
-        z-index: 99;
       }
 
-      .logo {
-        font-weight: 600;
-        letter-spacing: 0.08em;
-      }
-
-      .nav-links {
-        list-style: none;
+      .brand {
         display: flex;
-        gap: 1.5rem;
+        align-items: center;
+        gap: 0.6rem;
+        font-weight: 650;
+        letter-spacing: 0.02em;
       }
 
-      .nav-links a {
-        text-decoration: none;
-        color: var(--muted);
+      .mark {
+        display: grid;
+        place-items: center;
+        width: 1.9rem;
+        height: 1.9rem;
+        border-radius: 0.6rem;
+        background: linear-gradient(140deg, var(--accent), var(--accent-2));
+        color: #fff;
         font-size: 0.95rem;
-        letter-spacing: 0.03em;
-        transition: color 0.2s ease;
       }
 
-      .nav-links a:hover {
+      .links {
+        display: flex;
+        gap: 1.35rem;
+        list-style: none;
+        font-size: 0.92rem;
+      }
+
+      .links a {
+        color: var(--muted);
+        text-decoration: none;
+        transition: color 0.18s ease;
+      }
+
+      .links a:hover,
+      .links a:focus-visible {
         color: var(--text);
       }
 
-      .nav-toggle,
-      .theme-toggle {
+      .actions {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      button,
+      .btn {
+        font: inherit;
+        border-radius: 999px;
         border: 1px solid var(--border);
         background: var(--surface);
         color: var(--text);
-        padding: 0.55rem 0.9rem;
-        border-radius: 999px;
+        padding: 0.5rem 0.95rem;
         cursor: pointer;
+        text-decoration: none;
         display: inline-flex;
         align-items: center;
-        justify-content: center;
-        transition: transform 0.2s ease;
+        gap: 0.45rem;
+        transition: transform 0.15s ease, border-color 0.18s ease, background 0.18s ease;
+        white-space: nowrap;
       }
 
-      .nav-toggle:active,
-      .theme-toggle:active {
-        transform: scale(0.96);
+      button:active,
+      .btn:active {
+        transform: scale(0.97);
       }
 
-      .nav-toggle {
-        display: none;
+      button:focus-visible,
+      .btn:focus-visible,
+      a:focus-visible {
+        outline: 2px solid var(--accent-2);
+        outline-offset: 2px;
       }
 
-      .hero {
-        margin-top: 3rem;
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-        gap: 3rem;
-        align-items: center;
-      }
-
-      .hero h1 {
-        font-size: clamp(2.5rem, 6vw, 4.8rem);
-        line-height: 1.1;
-        letter-spacing: -0.02em;
-      }
-
-      .hero p {
-        margin-top: 1.5rem;
-        font-size: 1.1rem;
-        color: var(--muted);
-      }
-
-      .cta {
-        margin-top: 2.5rem;
-        display: flex;
-        flex-wrap: wrap;
-        gap: 1rem;
-      }
-
-      .btn-primary,
-      .btn-ghost {
-        border-radius: 999px;
-        padding: 0.95rem 2.4rem;
-        text-decoration: none;
-        border: 1px solid var(--border);
-        font-weight: 500;
-        letter-spacing: 0.04em;
-        transition: transform 0.2s ease, box-shadow 0.2s ease;
-      }
-
-      .btn-primary {
-        background: linear-gradient(120deg, #f97316, #7c3aed, #0ea5e9);
-        box-shadow: 0 15px 45px rgba(124, 58, 237, 0.4);
+      .btn.primary {
+        background: linear-gradient(135deg, var(--accent), #a855f7);
+        border-color: transparent;
         color: #fff;
+        font-weight: 600;
       }
 
-      .btn-ghost {
+      .btn.ghost {
         background: transparent;
-        color: var(--text);
       }
 
-      .metrics {
-        margin-top: 3rem;
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-        gap: 1rem;
+      .icon-btn {
+        width: 2.35rem;
+        height: 2.35rem;
+        justify-content: center;
+        padding: 0;
       }
 
-      .metric-card {
-        padding: 1.5rem;
-        border-radius: 1.25rem;
-        background: var(--card);
-        border: 1px solid var(--border);
-        text-align: center;
-      }
-
-      .metric-card h3 {
-        font-size: 2rem;
-      }
-
-      main {
-        padding: 0 clamp(1rem, 5vw, 5rem) 5rem;
-        display: grid;
-        gap: 4rem;
-      }
-
-      section {
-        padding: 2.5rem;
-        border-radius: 2rem;
-        background: var(--surface);
-        border: 1px solid var(--border);
-        box-shadow: var(--shadow);
-        position: relative;
-        overflow: hidden;
-      }
-
-      section h2 {
-        font-size: clamp(2rem, 4vw, 3rem);
-        margin-bottom: 1.5rem;
+      /* hero --------------------------------------------------------- */
+      header.hero {
+        padding: clamp(3rem, 8vw, 5.5rem) 0 clamp(2rem, 5vw, 3rem);
       }
 
       .pill {
         display: inline-flex;
         align-items: center;
-        gap: 0.5rem;
+        gap: 0.45rem;
+        font-size: 0.76rem;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        color: var(--muted);
+        border: 1px solid var(--border);
+        background: var(--surface);
+        padding: 0.3rem 0.7rem;
         border-radius: 999px;
-        padding: 0.35rem 1.1rem;
-        font-size: 0.85rem;
-        background: var(--accent-soft);
-        color: var(--accent);
-        margin-bottom: 1rem;
+        margin-bottom: 1.2rem;
+      }
+
+      .dot {
+        width: 0.42rem;
+        height: 0.42rem;
+        border-radius: 50%;
+        background: var(--muted);
+        flex: 0 0 auto;
+      }
+
+      .dot.ok {
+        background: var(--ok);
+      }
+
+      .dot.warn {
+        background: var(--warn);
+      }
+
+      .dot.bad {
+        background: var(--bad);
+      }
+
+      h1 {
+        font-size: clamp(2.1rem, 6vw, 3.6rem);
+        line-height: 1.08;
+        letter-spacing: -0.03em;
+        font-weight: 680;
+        text-wrap: balance;
+      }
+
+      h1 em {
+        font-style: normal;
+        background: linear-gradient(100deg, #a855f7, #38bdf8 60%, #22d3ee);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+      }
+
+      .lede {
+        margin-top: 1.1rem;
+        max-width: 44rem;
+        color: var(--muted);
+        font-size: clamp(1rem, 1.6vw, 1.12rem);
+      }
+
+      .cta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.7rem;
+        margin-top: 1.9rem;
+      }
+
+      /* facts ------------------------------------------------------- */
+      .facts {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(9.5rem, 1fr));
+        gap: 0.75rem;
+        margin-top: 2.6rem;
+      }
+
+      .fact {
+        border: 1px solid var(--border);
+        background: var(--card);
+        border-radius: 0.9rem;
+        padding: 0.85rem 1rem;
+      }
+
+      .fact b {
+        display: block;
+        font-size: 1.15rem;
+        font-variant-numeric: tabular-nums;
+      }
+
+      .fact span {
+        font-size: 0.72rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--muted);
+      }
+
+      /* sections ---------------------------------------------------- */
+      section {
+        padding: clamp(2.2rem, 5vw, 3.6rem) 0;
+      }
+
+      .head {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 1rem;
+        margin-bottom: 1.4rem;
+      }
+
+      h2 {
+        font-size: clamp(1.35rem, 3vw, 1.7rem);
+        letter-spacing: -0.02em;
+        font-weight: 640;
+      }
+
+      .head p {
+        color: var(--muted);
+        font-size: 0.88rem;
       }
 
       .grid {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-        gap: 1.5rem;
-      }
-
-      .card {
-        padding: 1.5rem;
-        border-radius: 1.5rem;
-        background: var(--card);
-        border: 1px solid var(--border);
-      }
-
-      .card h3 {
-        margin-bottom: 0.75rem;
-      }
-
-      .timeline {
-        position: relative;
-        padding-left: 2rem;
-        border-left: 1px solid var(--border);
-        display: flex;
-        flex-direction: column;
-        gap: 1.5rem;
-      }
-
-      .timeline-step {
-        position: relative;
-      }
-
-      .timeline-step::before {
-        content: "";
-        position: absolute;
-        left: -2.6rem;
-        top: 0.3rem;
-        width: 0.85rem;
-        height: 0.85rem;
-        border-radius: 50%;
-        background: var(--accent);
-        box-shadow: 0 0 15px rgba(124, 58, 237, 0.65);
-      }
-
-      .testimonials {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-        gap: 1.5rem;
-      }
-
-      .testimonial {
-        background: var(--card);
-        border-radius: 1.5rem;
-        border: 1px solid var(--border);
-        padding: 1.6rem;
-        min-height: 220px;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-      }
-
-      .highlight {
-        font-size: 2rem;
-        font-weight: 500;
-        margin: 1rem 0;
-      }
-
-      .contact {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-        gap: 2rem;
-        align-items: center;
-      }
-
-      form {
-        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
         gap: 1rem;
       }
 
-      label {
+      .card {
+        border: 1px solid var(--border);
+        background: var(--card);
+        border-radius: 1.1rem;
+        padding: 1.15rem 1.2rem;
+        backdrop-filter: blur(10px);
+        transition: border-color 0.2s ease, transform 0.2s ease;
+      }
+
+      .card:hover {
+        border-color: var(--accent);
+        transform: translateY(-2px);
+      }
+
+      .card h3 {
+        font-size: 1rem;
+        font-weight: 620;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        flex-wrap: wrap;
+      }
+
+      .card p {
+        color: var(--muted);
         font-size: 0.9rem;
+        margin-top: 0.45rem;
+      }
+
+      .tag {
+        font-size: 0.66rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--muted);
+        border: 1px solid var(--border);
+        border-radius: 999px;
+        padding: 0.1rem 0.5rem;
+      }
+
+      /* table ------------------------------------------------------- */
+      .table-wrap {
+        overflow-x: auto;
+        border: 1px solid var(--border);
+        border-radius: 1rem;
+        background: var(--card);
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.9rem;
+        min-width: 34rem;
+      }
+
+      th,
+      td {
+        text-align: left;
+        padding: 0.7rem 1rem;
+        border-bottom: 1px solid var(--border);
+        vertical-align: top;
+      }
+
+      th {
+        font-size: 0.72rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--muted);
+        font-weight: 600;
+      }
+
+      tr:last-child td {
+        border-bottom: 0;
+      }
+
+      code,
+      pre {
+        font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+        font-size: 0.82rem;
+      }
+
+      code {
+        background: var(--accent-soft);
+        padding: 0.08rem 0.35rem;
+        border-radius: 0.35rem;
+        word-break: break-all;
+      }
+
+      pre {
+        overflow-x: auto;
+        border: 1px solid var(--border);
+        border-radius: 0.8rem;
+        background: var(--surface);
+        padding: 0.9rem 1rem;
+        line-height: 1.55;
+        color: var(--text);
+        margin-top: 0.7rem;
+      }
+
+      /* status ------------------------------------------------------ */
+      .status {
+        display: grid;
+        gap: 0.6rem;
+      }
+
+      .status-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        border: 1px solid var(--border);
+        border-radius: 0.8rem;
+        padding: 0.65rem 0.9rem;
+        background: var(--card);
+        font-size: 0.88rem;
+      }
+
+      .status-row small {
         color: var(--muted);
       }
 
-      input,
-      textarea {
-        width: 100%;
-        padding: 0.85rem 1rem;
-        border-radius: 1rem;
+      .badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        font-size: 0.76rem;
+        padding: 0.15rem 0.55rem;
+        border-radius: 999px;
         border: 1px solid var(--border);
-        background: var(--card);
-        color: var(--text);
-        font-family: inherit;
+        white-space: nowrap;
       }
 
-      textarea {
-        min-height: 160px;
-        resize: vertical;
+      .badge.ok {
+        color: var(--ok);
+        border-color: var(--ok);
+      }
+
+      .badge.warn {
+        color: var(--warn);
+        border-color: var(--warn);
+      }
+
+      .badge.bad {
+        color: var(--bad);
+        border-color: var(--bad);
       }
 
       footer {
-        padding: 2.5rem clamp(1rem, 5vw, 5rem) 4rem;
-        text-align: center;
+        border-top: 1px solid var(--border);
+        margin-top: 2rem;
+        padding: 1.6rem 0 2.6rem;
         color: var(--muted);
+        font-size: 0.85rem;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.8rem;
+        justify-content: space-between;
       }
 
-      .status-chip {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.35rem;
-        padding: 0.2rem 0.7rem;
-        border-radius: 999px;
-        border: 1px solid var(--border);
-        font-size: 0.8rem;
+      footer a {
+        color: var(--muted);
+        text-decoration: none;
+        margin-left: 1rem;
       }
 
-      .status-chip span {
-        width: 0.55rem;
-        height: 0.55rem;
-        border-radius: 50%;
-        background: #4ade80;
-        box-shadow: 0 0 10px rgba(74, 222, 128, 0.8);
+      footer a:hover {
+        color: var(--text);
       }
 
-      .back-to-top {
-        position: fixed;
-        right: 1.5rem;
-        bottom: 1.5rem;
-        z-index: 90;
-        border-radius: 50%;
-        width: 3.2rem;
-        height: 3.2rem;
-        border: none;
-        background: var(--accent);
-        color: #fff;
-        cursor: pointer;
-        box-shadow: var(--shadow);
-        opacity: 0;
-        visibility: hidden;
-        transition: opacity 0.2s ease, visibility 0.2s ease, transform 0.2s ease;
-      }
+      @media (max-width: 760px) {
+        .links {
+          display: none;
+        }
 
-      .back-to-top.show {
-        opacity: 1;
-        visibility: visible;
-      }
-
-      @media (max-width: 920px) {
         nav {
-          border-radius: 1.5rem;
+          padding-left: 1rem;
         }
 
-        .nav-links {
-          position: absolute;
-          top: calc(100% + 0.5rem);
-          left: 0;
-          right: 0;
+        .head {
           flex-direction: column;
-          background: var(--surface);
-          border: 1px solid var(--border);
-          border-radius: 1.5rem;
-          padding: 1rem;
-          box-shadow: var(--shadow);
-          opacity: 0;
-          pointer-events: none;
-          transform: translateY(-10px);
-          transition: opacity 0.2s ease, transform 0.2s ease;
+          gap: 0.2rem;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        * {
+          transition: none !important;
+          animation: none !important;
         }
 
-        .nav-links.open {
-          opacity: 1;
-          pointer-events: auto;
-          transform: translateY(0);
-        }
-
-        .nav-toggle {
-          display: inline-flex;
+        html {
+          scroll-behavior: auto;
         }
       }
     </style>
   </head>
+
   <body>
-    <div class="gradient-blur" aria-hidden="true"></div>
-    <header id="top">
+    <div class="glow"></div>
+
+    <div class="wrap">
       <nav>
-        <div class="logo">Aurora Studio</div>
-        <button class="nav-toggle" aria-label="Toggle navigation">☰</button>
-        <ul class="nav-links">
-          <li><a href="#services">Services</a></li>
-          <li><a href="#process">Process</a></li>
-          <li><a href="#work">Work</a></li>
-          <li><a href="#contact">Contact</a></li>
+        <div class="brand">
+          <span class="mark" aria-hidden="true">A</span>
+          Axzora
+        </div>
+        <ul class="links">
+          <li><a href="#app">Super App</a></li>
+          <li><a href="#ecosystem">Ecosystem</a></li>
+          <li><a href="#token">Token</a></li>
+          <li><a href="#quickstart">Quick start</a></li>
+          <li><a href="#status">Status</a></li>
         </ul>
-        <button class="theme-toggle" aria-label="Toggle color mode">◎</button>
+        <div class="actions">
+          <a
+            class="btn primary"
+            href="https://github.com/axzoraharry/axzora-super-app"
+            target="_blank"
+            rel="noreferrer"
+            >Open app</a
+          >
+          <button class="icon-btn" id="theme" type="button" aria-label="Toggle colour theme">◐</button>
+        </div>
       </nav>
-      <div class="hero">
-        <div>
-          <div class="pill">Crafted example website</div>
-          <h1>Digital products that feel effortless & expressive.</h1>
-          <p>
-            Aurora Studio is a concept agency specializing in immersive brand
-            systems, intuitive product design, and launch storytelling that
-            converts.
-          </p>
-          <div class="cta">
-            <a class="btn-primary" href="#contact">Schedule a call</a>
-            <a class="btn-ghost" href="#work">See recent work →</a>
-          </div>
-          <div class="metrics">
-            <div class="metric-card">
-              <h3>120+</h3>
-              <p>Products launched</p>
-            </div>
-            <div class="metric-card">
-              <h3>4.9/5</h3>
-              <p>Average NPS</p>
-            </div>
-            <div class="metric-card">
-              <h3>12</h3>
-              <p>Countries served</p>
-            </div>
-          </div>
+
+      <header class="hero">
+        <span class="pill"><span class="dot ok"></span> BNB Smart Chain · self-custody</span>
+        <h1>Happy Paisa, in your pocket.<br /><em>No backend required.</em></h1>
+        <p class="lede">
+          The Axzora Super App is a mobile-first dApp for the Happy Paisa (HP) token: mint,
+          burn, transfer and stake straight from a browser wallet, with a voice-controlled
+          avatar, live pricing and a built-in wallet view. Everything runs client-side, so
+          there is nothing to host and no server key to leak.
+        </p>
+        <div class="cta">
+          <a
+            class="btn primary"
+            href="https://github.com/axzoraharry/axzora-super-app"
+            target="_blank"
+            rel="noreferrer"
+            >Launch the app</a
+          >
+          <a class="btn" href="https://axzoraharry.github.io/axzora-docs/" target="_blank" rel="noreferrer"
+            >Read the docs</a
+          >
+          <a
+            class="btn ghost"
+            href="https://github.com/axzoraharry/axzora-ota/releases/latest"
+            target="_blank"
+            rel="noreferrer"
+            >Download AxzoraOS</a
+          >
         </div>
-        <div>
-          <div class="pill">Live project status</div>
+
+        <div class="facts">
+          <div class="fact"><b>11.00 USDT</b><span>HP reference price</span></div>
+          <div class="fact"><b>0x38</b><span>Chain ID (56)</span></div>
+          <div class="fact"><b>6% APR</b><span>Staking · 30-day lock</span></div>
+          <div class="fact"><b>0 secrets</b><span>Committed to the repo</span></div>
+        </div>
+      </header>
+
+      <section id="app">
+        <div class="head">
+          <h2>What the app does</h2>
+          <p>All client-side, in one static page</p>
+        </div>
+        <div class="grid">
+          <article class="card">
+            <h3>Mint · burn · transfer</h3>
+            <p>
+              Full HP interface against the deployed contract, with BNB gas handling and a
+              pre-flight simulation so a transaction that would revert is caught before you
+              sign it.
+            </p>
+          </article>
+          <article class="card">
+            <h3>Staking</h3>
+            <p>
+              Stake HP for 6% APR with a 30-day lock. Accrued rewards update live and an early
+              withdrawal is blocked in the UI, not just in the contract.
+            </p>
+          </article>
+          <article class="card">
+            <h3>Live price and portfolio</h3>
+            <p>
+              USD and INR pricing from CoinGecko, Dexscreener and BSCScan. The BSCScan key is
+              read from <code>localStorage</code> — it is no longer committed.
+            </p>
+          </article>
+          <article class="card">
+            <h3>Voice and avatar</h3>
+            <p>
+              20+ voice commands, an animated Mr Happy avatar and speech synthesis. Every
+              browser API is feature-detected, so a WebView without speech falls back to text.
+            </p>
+          </article>
+          <article class="card">
+            <h3>On-device biometrics</h3>
+            <p>
+              Face detection over TFJS with version-agnostic model adapters and a clean
+              fallback when a model cannot load. Frames never leave the device.
+            </p>
+          </article>
+          <article class="card">
+            <h3>Built-in wallet</h3>
+            <p>
+              Non-custodial local wallet plus a security manager that watches account and
+              network changes and warns before an unsafe approval.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <section id="ecosystem">
+        <div class="head">
+          <h2>The rest of the ecosystem</h2>
+          <p>Six repositories, one update channel</p>
+        </div>
+        <div class="grid">
+          <article class="card">
+            <h3>AxzoraOS <span class="tag">Android</span></h3>
+            <p>
+              The shell: gesture HUD, hub panel and in-app OTA. Signed v18.18 (versionCode 210),
+              delivered by its own manifest instead of a store.
+            </p>
+          </article>
+          <article class="card">
+            <h3>Axzora Server <span class="tag">Node</span></h3>
+            <p>
+              Local-first OTA hub: <code>/update/check</code>, APK download, families and
+              ledger. Prefers a phone-local APK and only redirects to GitHub when it is
+              missing.
+            </p>
+          </article>
+          <article class="card">
+            <h3>Axzora Ludo <span class="tag">WebSocket</span></h3>
+            <p>
+              Authoritative multiplayer Ludo with AI seat hand-off, a browser client and 17
+              tests covering the board, captures and a full four-player game to a winner.
+            </p>
+          </article>
+          <article class="card">
+            <h3>Axzora Docs <span class="tag">Pages</span></h3>
+            <p>
+              Install steps, the OTA manifest contract, keyboard and gestures, troubleshooting
+              and a version table.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <section id="token">
+        <div class="head">
+          <h2>Token facts</h2>
+          <p>Verify these before you sign anything</p>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th scope="col">Field</th>
+                <th scope="col">Value</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>HP token (BSC mainnet)</td>
+                <td><code>0x9A1BA34e3B23e258974baEE1E883BE9374A39276</code></td>
+              </tr>
+              <tr>
+                <td>USDT (BSC)</td>
+                <td><code>0x55d398326f99059fF775485246999027B3197955</code></td>
+              </tr>
+              <tr>
+                <td>Chain</td>
+                <td>
+                  BNB Smart Chain · <code>0x38</code> (56) · RPC
+                  <code>bsc-dataseed1.binance.org</code>
+                </td>
+              </tr>
+              <tr>
+                <td>Reference price</td>
+                <td>1 HP = 11.00 USDT · 105% collateral ratio</td>
+              </tr>
+              <tr>
+                <td>API key</td>
+                <td>
+                  Never committed — set it with
+                  <code>localStorage.setItem('axzora.bsc.key', …)</code> or <code>?bsc_key=</code>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section id="quickstart">
+        <div class="head">
+          <h2>Run it yourself</h2>
+          <p>Static files, one command</p>
+        </div>
+        <div class="grid">
           <div class="card">
-            <div class="status-chip"><span></span> Sprint in progress</div>
-            <div class="highlight">Orbit OS Design Language</div>
+            <h3>Serve the app locally</h3>
+            <pre><code>git clone https://github.com/axzoraharry/axzora-super-app
+cd axzora-super-app
+npm start          # http://localhost:5173</code></pre>
             <p>
-              Unifying web + native experiences with a shared component system,
-              motion library, and story-driven documentation.
+              Then connect a wallet on BSC mainnet. <code>npm run check</code> runs a syntax and
+              secret scan over the whole tree.
             </p>
-            <ul style="margin-top: 1.25rem; color: var(--muted);">
-              <li>✺ 62 components documented</li>
-              <li>✺ Motion tokens shipped</li>
-              <li>✺ Voice & tone guide live</li>
-            </ul>
           </div>
-        </div>
-      </div>
-    </header>
-
-    <main>
-      <section id="services">
-        <div class="pill">What we do</div>
-        <h2>Strategy, design, and systems for ambitious teams.</h2>
-        <div class="grid">
-          <article class="card">
-            <h3>Product strategy</h3>
-            <p>
-              Narrative workshops, value prop framing, and north-star mapping to
-              keep every sprint pointed at the user outcome.
-            </p>
-          </article>
-          <article class="card">
-            <h3>Experience design</h3>
-            <p>
-              Interface, motion, and content design that scales. We obsess over
-              the invisible moments that make software feel human.
-            </p>
-          </article>
-          <article class="card">
-            <h3>Launch content</h3>
-            <p>
-              End-to-end campaigns with landing pages, showreels, and social kits
-              to ship your product story with confidence.
-            </p>
-          </article>
-          <article class="card">
-            <h3>Design systems</h3>
-            <p>
-              Token architecture, component libraries, and documentation to keep
-              cross-platform teams shipping faster.
-            </p>
-          </article>
-        </div>
-      </section>
-
-      <section id="process">
-        <div class="pill">How it flows</div>
-        <h2>Transparent milestones. Reliable collaboration.</h2>
-        <div class="timeline">
-          <div class="timeline-step">
-            <h3>01 · Discover</h3>
-            <p>Stakeholder interviews, user research synthesis, and journey mapping.</p>
-          </div>
-          <div class="timeline-step">
-            <h3>02 · Design</h3>
-            <p>Weekly drops with interactive prototypes, motion studies, and content.</p>
-          </div>
-          <div class="timeline-step">
-            <h3>03 · Build</h3>
-            <p>Partner engineering or design handoff, paired QA, and support docs.</p>
-          </div>
-          <div class="timeline-step">
-            <h3>04 · Launch</h3>
-            <p>Go-to-market storytelling, live site builds, and training sessions.</p>
+          <div class="card">
+            <h3>Install AxzoraOS</h3>
+            <pre><code>sha256sum AxzoraOS-18.18.apk
+# 1d0ae458d93dfdd04938b11d…
+# cert F9276561…90456  (v2 + v3)</code></pre>
+            <p>Allow installs from the browser, then accept the in-app update dialog.</p>
           </div>
         </div>
       </section>
 
-      <section id="work">
-        <div class="pill">Selected work</div>
-        <h2>Recent releases and prototypes.</h2>
-        <div class="grid">
-          <article class="card">
-            <h3>Pulse Health</h3>
-            <p>Consumer health OS that blends AI guidance with biometric data.</p>
-            <small>Product strategy · App design · Launch site</small>
-          </article>
-          <article class="card">
-            <h3>Nova Bank</h3>
-            <p>Premium banking experience with realtime wealth dashboards.</p>
-            <small>Design system · Web app · Motion</small>
-          </article>
-          <article class="card">
-            <h3>Aster Robotics</h3>
-            <p>Industrial robotics platform reimagined for rapid onboarding.</p>
-            <small>Brand · WebGL site · GTM</small>
-          </article>
-          <article class="card">
-            <h3>Cloudshift</h3>
-            <p>Developer tooling workspace with multiplayer collaboration.</p>
-            <small>UX research · Product design · Storytelling</small>
-          </article>
+      <section id="status">
+        <div class="head">
+          <h2>Live status</h2>
+          <p>Fetched from this browser, right now</p>
         </div>
+        <div class="status" id="statusRows" aria-live="polite"></div>
       </section>
 
-      <section>
-        <div class="pill">Proof</div>
-        <h2>Leaders talk about working with Aurora.</h2>
-        <div class="testimonials">
-          <article class="testimonial">
-            <p>
-              “They ship with a founder mindset. Every deliverable felt already
-              tested in the wild.”
-            </p>
-            <strong>Naomi Carter · CEO, Cloudshift</strong>
-          </article>
-          <article class="testimonial">
-            <p>
-              “The system they handed off saved our team months. Documentation was
-              a product in itself.”
-            </p>
-            <strong>Leo Park · Head of Design, Nova Bank</strong>
-          </article>
-          <article class="testimonial">
-            <p>
-              “They choreographed an entire launch narrative and gave our team the
-              confidence to scale.”
-            </p>
-            <strong>Imani Ruiz · VP Product, Pulse</strong>
-          </article>
-        </div>
-      </section>
-
-      <section id="contact">
-        <div class="pill">Let's build</div>
-        <h2>Tell us about your next launch.</h2>
-        <div class="contact">
-          <div>
-            <p>
-              Drop a note and we’ll respond within 2 business days with a tailored
-              kickoff plan, budget ranges, and a preview timeline.
-            </p>
-            <ul style="margin-top: 1.25rem; color: var(--muted);">
-              <li>↳ Workshops start at $8k</li>
-              <li>↳ Product sprints start at $15k</li>
-              <li>↳ Full launches from $25k</li>
-            </ul>
-          </div>
-          <form id="contact-form">
-            <label for="name">Your name</label>
-            <input id="name" name="name" placeholder="Alex Kim" required />
-            <label for="email">Work email</label>
-            <input
-              id="email"
-              name="email"
-              type="email"
-              placeholder="alex@brand.com"
-              required
-            />
-            <label for="message">Project details</label>
-            <textarea
-              id="message"
-              name="message"
-              placeholder="Tell us about timeline, goals, and links"
-              required
-            ></textarea>
-            <button class="btn-primary" type="submit">Send request</button>
-            <p id="form-status" style="display: none; color: #4ade80;">
-              Request sent! We'll be in touch shortly.
-            </p>
-          </form>
-        </div>
-      </section>
-    </main>
-
-    <button class="back-to-top" aria-label="Back to top">↑</button>
-
-    <footer>
-      © <span id="year"></span> Aurora Studio · Made as an example experience.
-    </footer>
+      <footer>
+        <span>© <span id="year">2026</span> Axzora · MIT for the open parts</span>
+        <span>
+          <a href="https://github.com/axzoraharry" target="_blank" rel="noreferrer">GitHub</a>
+          <a href="https://axzoraharry.github.io/axzora-docs/" target="_blank" rel="noreferrer">Docs</a>
+          <a href="https://github.com/axzoraharry/axzora-ota/releases" target="_blank" rel="noreferrer"
+            >Releases</a
+          >
+        </span>
+      </footer>
+    </div>
 
     <script>
-      const root = document.documentElement;
-      const navToggle = document.querySelector('.nav-toggle');
-      const navLinks = document.querySelector('.nav-links');
-      const themeToggle = document.querySelector('.theme-toggle');
-      const contactForm = document.querySelector('#contact-form');
-      const formStatus = document.querySelector('#form-status');
-      const backToTop = document.querySelector('.back-to-top');
-
-      function setTheme(theme) {
-        document.body.dataset.theme = theme;
-        localStorage.setItem('aurora-theme', theme);
-      }
-
-      (function initTheme() {
-        const preferred = localStorage.getItem('aurora-theme');
-        if (preferred) {
-          setTheme(preferred);
-        } else if (window.matchMedia('(prefers-color-scheme: light)').matches) {
-          setTheme('light');
+      (() => {
+        // ---- theme -----------------------------------------------------
+        const root = document.documentElement;
+        const KEY = "axzora.theme";
+        try {
+          const stored = localStorage.getItem(KEY);
+          if (stored === "light" || stored === "dark") root.dataset.theme = stored;
+        } catch (error) {
+          /* storage can throw in private mode */
         }
+
+        const themeButton = document.getElementById("theme");
+        themeButton.addEventListener("click", () => {
+          const next = root.dataset.theme === "dark" ? "light" : "dark";
+          root.dataset.theme = next;
+          themeButton.setAttribute("aria-pressed", String(next === "dark"));
+          try {
+            localStorage.setItem(KEY, next);
+          } catch (error) {
+            /* ignore */
+          }
+        });
+
+        document.getElementById("year").textContent = String(new Date().getFullYear());
+
+        // ---- live status ----------------------------------------------
+        const endpoints = [
+          {
+            label: "OTA manifest",
+            hint: "axzora-server",
+            url: "https://axzora-server-k39z.onrender.com/update/check",
+            pick: (data) => {
+              if (!data || typeof data !== "object") return null;
+              const version = data.versionName || data.version;
+              if (!version) return null;
+              return data.versionCode ? version + " · code " + data.versionCode : String(version);
+            },
+          },
+          {
+            label: "Ludo server",
+            hint: "axzora-ludo",
+            url: "https://axzora-ludo.onrender.com/health",
+            pick: (data) => {
+              if (!data || typeof data !== "object" || data.ok !== true) return null;
+              const rooms = typeof data.rooms === "number" ? " · " + data.rooms + " rooms" : "";
+              return "v" + (data.version || "ok") + rooms;
+            },
+          },
+        ];
+
+        const rows = document.getElementById("statusRows");
+
+        const paint = (endpoint, tone, text, detail) => {
+          const row = document.createElement("div");
+          row.className = "status-row";
+
+          const left = document.createElement("div");
+          const title = document.createElement("div");
+          title.textContent = endpoint.label;
+          const sub = document.createElement("small");
+          sub.textContent = detail;
+          left.append(title, sub);
+
+          const badge = document.createElement("span");
+          badge.className = "badge " + tone;
+          const dot = document.createElement("span");
+          dot.className = "dot " + tone;
+          badge.append(dot, document.createTextNode(text));
+
+          row.append(left, badge);
+          rows.append(row);
+        };
+
+        const check = async (endpoint) => {
+          const controller = new AbortController();
+          const timer = setTimeout(() => controller.abort(), 8000);
+          const started = performance.now();
+          try {
+            const response = await fetch(endpoint.url, {
+              signal: controller.signal,
+              headers: { accept: "application/json" },
+              cache: "no-store",
+            });
+            const ms = Math.round(performance.now() - started);
+
+            if (response.status === 404 || response.status === 405) {
+              return paint(endpoint, "warn", "not deployed", endpoint.hint + " · no instance yet");
+            }
+
+            const body = await response.json().catch(() => null);
+            if (!response.ok) {
+              return paint(endpoint, "bad", "http " + response.status, endpoint.hint + " · " + ms + " ms");
+            }
+
+            return paint(
+              endpoint,
+              "ok",
+              "online",
+              endpoint.hint + " · " + (endpoint.pick(body) || "ok") + " · " + ms + " ms"
+            );
+          } catch (error) {
+            const timedOut = error && error.name === "AbortError";
+            return paint(
+              endpoint,
+              "bad",
+              timedOut ? "timed out" : "unreachable",
+              endpoint.hint + " · " + (timedOut ? "8 s limit" : "network or CORS")
+            );
+          } finally {
+            clearTimeout(timer);
+          }
+        };
+
+        rows.textContent = "";
+        endpoints.forEach((endpoint) => {
+          void check(endpoint);
+        });
       })();
-
-      themeToggle.addEventListener('click', () => {
-        const nextTheme = document.body.dataset.theme === 'light' ? 'dark' : 'light';
-        setTheme(nextTheme);
-      });
-
-      navToggle.addEventListener('click', () => {
-        navLinks.classList.toggle('open');
-      });
-
-      navLinks.addEventListener('click', (event) => {
-        if (event.target.tagName === 'A' && navLinks.classList.contains('open')) {
-          navLinks.classList.remove('open');
-        }
-      });
-
-      contactForm.addEventListener('submit', (event) => {
-        event.preventDefault();
-        formStatus.style.display = 'block';
-        formStatus.textContent = 'Sending…';
-
-        setTimeout(() => {
-          formStatus.textContent = "Request sent! We'll be in touch shortly.";
-          contactForm.reset();
-        }, 800);
-      });
-
-      function handleScroll() {
-        const scrolled = window.scrollY;
-        if (scrolled > 400) {
-          backToTop.classList.add('show');
-        } else {
-          backToTop.classList.remove('show');
-        }
-      }
-
-      window.addEventListener('scroll', handleScroll);
-
-      backToTop.addEventListener('click', () => {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      });
-
-      document.getElementById('year').textContent = new Date().getFullYear();
     </script>
   </body>
 </html>
